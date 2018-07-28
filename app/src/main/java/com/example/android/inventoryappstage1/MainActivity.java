@@ -3,12 +3,13 @@ package com.example.android.inventoryappstage1;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.android.inventoryappstage1.data.ProductContract.ProductsEntry;
 import com.example.android.inventoryappstage1.data.ProductDbHelper;
 
@@ -31,11 +32,9 @@ public class MainActivity extends AppCompatActivity {
                 displayProducts();
             }
         });
-
-
     }
 
-    private void insertData(){
+    private void insertData() {
         //opens the database
         mDbHelper = new ProductDbHelper(this);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -45,20 +44,20 @@ public class MainActivity extends AppCompatActivity {
         values.put(ProductsEntry.COLUMN_PRODUCT_NAME, "Yellow Submarines");
         values.put(ProductsEntry.COLUMN_PRODUCT_PRICE, 300);
         values.put(ProductsEntry.COLUMN_PRODUCT_QTY, 1);
-        values.put(ProductsEntry.COLUMN_SUPPLIER_NAME,"Beatles");
-        values.put(ProductsEntry.COLUMN_SUPPLIER_PHONE,"1-800-BEA-TLES");
-        Log.i("MainActivity.java", " SQL QRY :" +  values.toString());
+        values.put(ProductsEntry.COLUMN_SUPPLIER_NAME, "Beatles");
+        values.put(ProductsEntry.COLUMN_SUPPLIER_PHONE, "1-800-BEA-TLES");
+        Log.i("MainActivity.java", " SQL QRY :" + values.toString());
         db.insert(ProductsEntry.TABLE_NAME, null, values);
         mDbHelper.close();
     }
 
-    private void displayProducts(){
+    private void displayProducts() {
         mDbHelper = new ProductDbHelper(this);
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] projection = {ProductsEntry._ID, ProductsEntry.COLUMN_PRODUCT_NAME, ProductsEntry.COLUMN_PRODUCT_PRICE,
                 ProductsEntry.COLUMN_PRODUCT_QTY, ProductsEntry.COLUMN_SUPPLIER_NAME, ProductsEntry.COLUMN_SUPPLIER_PHONE};
-        Cursor cursor = db.query(ProductsEntry.TABLE_NAME,projection,null,null,null,null,null);
-        TextView displayView = (TextView) findViewById(R.id.displayTableInfo);
+        Cursor cursor = db.query(ProductsEntry.TABLE_NAME, projection, null, null, null, null, null);
+        TextView displayView = findViewById(R.id.displayTableInfo);
         displayView.setText("The Products table contains " + cursor.getCount() + " rows of data \n");
         displayView.append(ProductsEntry._ID + " | " + ProductsEntry.COLUMN_PRODUCT_NAME + " | " + ProductsEntry.COLUMN_PRODUCT_PRICE
                 + " | " + ProductsEntry.COLUMN_PRODUCT_QTY + " | " + ProductsEntry.COLUMN_SUPPLIER_NAME + " | " + ProductsEntry.COLUMN_SUPPLIER_PHONE);
